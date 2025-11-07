@@ -11,7 +11,6 @@ It is classified according to four different stages of Alzheimer's disease.
 
 _**This project can be used for medical purposes.**_
 
-![image](https://user-images.githubusercontent.com/58422765/147390575-fc40557d-f8a3-4a21-b2e7-9654ef19856d.gif)
 
 The technical purpose of this project is about to testing different deep learning models for Alzheimer's diagnosis.
 
