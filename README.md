@@ -1,5 +1,5 @@
 # Alzheimer's Disease Classifier
-## Sakarya University Final Year Project of [Özge Çinko](https://github.com/ozgecinko) and [Kader Miyanyedi](https://github.com/Kadermiyanyedi). 
+## Project of [Aabha Jahagirdar](https://github.com/AabhaJahagirdar/), [Rajnandini Shinde](https://github.com/Rajnandini-shinde/), [Vedika Patil](https://github.com/), [Salma Mulla](https://github.com/). 
 
 This project aims to find out if an MRI scan is Alzheimer's disease or not.
 It is classified according to four different stages of Alzheimer's disease.
@@ -85,4 +85,9 @@ python app.py
 ```
 
 You can reach the project at localhost:5000.
+
+Localfile commands : 
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process                
+& C:\Users\HP\Downloads\AlzheimersDiseaseClassifier-master\AlzheimersDiseaseClassifier-master\venv\Scripts\Activate.ps1
+python app.py
 
