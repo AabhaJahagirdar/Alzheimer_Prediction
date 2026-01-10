@@ -1,0 +1,130 @@
+# ==================================================
+# Python / Machine Learning / Deep Learning Project
+# ==================================================
+
+### Python ###
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# ==================================================
+# Virtual Environments
+# ==================================================
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pyvenv.cfg
+pip-selfcheck.json
+
+# ==================================================
+# Build / Distribution
+# ==================================================
+build/
+dist/
+develop-eggs/
+eggs/
+.eggs/
+sdist/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ==================================================
+# Logs / Reports / Cache
+# ==================================================
+*.log
+coverage.xml
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+.tox/
+.nox/
+htmlcov/
+nosetests.xml
+*.cover
+
+# ==================================================
+# Jupyter / IPython
+# ==================================================
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# ==================================================
+# IDE / Editors
+# ==================================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+.history/
+.spyderproject
+.spyproject
+.ropeproject
+
+# ==================================================
+# OS Files
+# ==================================================
+.DS_Store
+Thumbs.db
+
+# ==================================================
+# TensorFlow / Keras / Deep Learning
+# ==================================================
+
+# Trained models
+*.h5
+*.keras
+*.pb
+*.onnx
+
+# Model directories
+saved_models/
+saved_models_fast/
+checkpoints/
+
+# TensorBoard logs
+logs/
+tf_logs/
+
+# ==================================================
+# Datasets (DO NOT PUSH DATASETS)
+# ==================================================
+dataset/
+data/
+datasets/
+static/train/
+static/tests/
+
+# ==================================================
+# Generated Outputs
+# ==================================================
+confusion_matrices/
+evaluation_results/
+model_metrics/
+model_evaluation_results.csv
+
+# ==================================================
+# Temporary / Backup Files
+# ==================================================
+*.tmp
+*.bak
+*.swp
+
+# ==================================================
+# End of .gitignore
+# ==================================================

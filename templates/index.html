@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NeuroCare | Alzheimer’s Disease Prediction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- ================= HEALTHCARE THEME ================= -->
+  <style>
+    :root {
+      --bg: #F2F8FA;
+      --card: #FFFFFF;
+      --text: #1F2D3D;
+      --subtext: #5F6F7A;
+      --accent: #2FA4A9;
+      --accent-dark: #1E6F9F;
+      --success: #2E8B57;
+      --shadow: rgba(0,0,0,0.08);
+    }
+
+    body.dark {
+      --bg: #0F1720;
+      --card: #16202B;
+      --text: #EAF2F6;
+      --subtext: #A9B6C2;
+      --accent: #4ECACB;
+      --accent-dark: #6FBEDC;
+      --success: #4CAF50;
+      --shadow: rgba(255,255,255,0.08);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", sans-serif;
+      transition: 0.3s;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px var(--shadow);
+      border: none;
+    }
+
+    h1, h2, h3, h4 {
+      color: var(--text);
+    }
+
+    p {
+      color: var(--subtext);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border: none;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+    }
+
+    .prediction {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    /* ===== MRI IMAGE RESPONSIVE FIX ===== */
+    .image-wrapper {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .image-wrapper img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    /* ================= CHATBOT ================= */
+    .chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      max-height: 480px;
+      display: none;
+      flex-direction: column;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px var(--shadow);
+      z-index: 999;
+    }
+
+    .chat-header {
+      background: var(--accent);
+      color: white;
+      padding: 12px;
+      font-weight: 600;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .chat-body {
+      padding: 10px;
+      overflow-y: auto;
+      flex-grow: 1;
+      font-size: 14px;
+    }
+
+    .chat-footer {
+      padding: 8px;
+      border-top: 1px solid #ccc;
+    }
+
+    .chat-msg {
+      margin-bottom: 8px;
+    }
+
+    .bot {
+      color: var(--accent-dark);
+    }
+
+    .user {
+      text-align: right;
+      color: var(--text);
+    }
+
+    .chat-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px var(--shadow);
+      z-index: 1000;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<div class="container-fluid py-3">
+  <div class="d-flex justify-content-between align-items-center">
+    <h4 class="fw-bold">🧠 NeuroCare</h4>
+
+    <div class="d-flex gap-2">
+      <select id="lang" class="form-select form-select-sm" onchange="changeLang()">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="mr">मराठी</option>
+      </select>
+
+      <button class="btn btn-sm btn-outline-secondary" onclick="toggleTheme()">
+        <i class="bi bi-moon-fill"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MAIN ================= -->
+<div class="container mt-4">
+
+  <!-- Upload Card -->
+  <div class="card p-4 text-center">
+    <h1 id="title">Alzheimer’s Disease Prediction</h1>
+    <p id="subtitle">Upload an MRI image to detect the stage</p>
+
+    <form action="/submit" method="post" enctype="multipart/form-data" class="mt-4">
+      <input type="file" name="my_image" class="form-control mb-3" required>
+      <button type="submit" class="btn btn-primary w-100">Predict</button>
+    </form>
+  </div>
+
+  <!-- Prediction Card -->
+  {% if prediction %}
+  <div class="card p-4 mt-4 text-center">
+    <h4>Prediction Result</h4>
+
+    {% if img_path %}
+      <div class="image-wrapper my-3">
+        <img src="{{ img_path }}" alt="Uploaded MRI Image">
+      </div>
+    {% endif %}
+
+    <h3 class="prediction">{{ prediction }}</h3>
+    <p class="mt-2 text-muted">
+      This system is for educational awareness only.  
+      Always consult a certified neurologist.
+    </p>
+  </div>
+  {% endif %}
+
+</div>
+
+<!-- ================= CHATBOT ================= -->
+<div class="chat-btn" onclick="toggleChat()">💬</div>
+
+<div class="chatbot" id="chatbot">
+  <div class="chat-header">NeuroGuide – AI Assistant</div>
+  <div class="chat-body" id="chatBody">
+    <div class="chat-msg bot">
+      Hello! I can explain Alzheimer’s stages, MRI results, and caregiver guidance.
+    </div>
+  </div>
+  <div class="chat-footer">
+    <input type="text" id="chatInput" class="form-control" placeholder="Ask me..." onkeydown="sendMsg(event)">
+  </div>
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+  function toggleTheme() {
+    document.body.classList.toggle("dark");
+  }
+
+  function toggleChat() {
+    const bot = document.getElementById("chatbot");
+    bot.style.display = bot.style.display === "flex" ? "none" : "flex";
+  }
+
+  function sendMsg(e) {
+    if (e.key === "Enter") {
+      const input = e.target;
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const body = document.getElementById("chatBody");
+      body.innerHTML += `<div class="chat-msg user">${msg}</div>`;
+      body.innerHTML += `<div class="chat-msg bot">This will respond using the AI backend.</div>`;
+      input.value = "";
+      body.scrollTop = body.scrollHeight;
+    }
+  }
+
+  const translations = {
+    en: {
+      title: "Alzheimer’s Disease Prediction",
+      subtitle: "Upload an MRI image to detect the stage"
+    },
+    hi: {
+      title: "अल्ज़ाइमर रोग की भविष्यवाणी",
+      subtitle: "एमआरआई छवि अपलोड करें"
+    },
+    mr: {
+      title: "अल्झायमर रोग अंदाज",
+      subtitle: "एमआरआय प्रतिमा अपलोड करा"
+    }
+  };
+
+  function changeLang() {
+    const lang = document.getElementById("lang").value;
+    document.getElementById("title").innerText = translations[lang].title;
+    document.getElementById("subtitle").innerText = translations[lang].subtitle;
+  }
+</script>
+
+</body>
+</html>
